@@ -6,7 +6,7 @@ const books = await getCollection("books"); // esto devuelve una array de objeto
 
 export const prerender = true; // prerender es una propiedad que le dice a astro que esta pagina se debe prerenderizar, es decir, que se debe generar una version estatica de la pagina en el momento de la construccion
 // esto es util para mejorar el rendimiento de la pagina y para que no se tenga que generar la pagina en cada peticion
-console.log(books[0].slug); // esto es para ver si se esta obteniendo el slug de los libros correctamente
+// console.log(books[0].slug); // esto es para ver si se esta obteniendo el slug de los libros correctamente
 // console.log(books[0].data); // esto es para ver si se esta obteniendo la data de los libros correctamente
 ---
 

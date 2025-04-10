@@ -1,10 +1,20 @@
 ---
-import type { GetStaticPaths } from "astro"; // getStaticPaths es un tipo de dato que nos permite definir el tipo de la funcion getStaticPaths
+// import type { GetStaticPaths } from "astro"; // getStaticPaths es un tipo de dato que nos permite definir el tipo de la funcion getStaticPaths
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 
 // esto devuelve una array de objetos con los metadatos de cada libro
-export const getStaticPaths = () => {
+export const getStaticPaths = async () => {
+  const books = await getCollection("books"); // esto devuelve una array de objetos con los metadatos de cada libro
+
+  return books.map((book) => ({
+    params: { id: book.slug }, // esto es lo que se pasara como props al componente Layout, el id es el slug del libro
+    /*props: { titlle: book.data.title }, // esto solo trae el title del libro, lo que coloquemos aqui se pasara como props al componente Layout, solo lo de props*/
+    props: { book }, // esto trae todo el objeto del libro, lo que coloquemos aqui se pasara como props al componente Layout, solo lo de props
+  }));
+
+  /*
+  // esto es de forma manual, pero lo ideal es que se haga de forma automatica, para eso se usa la funcion getCollection
   return [
     {
       params: { id: "aprendiendo-git" }, // esto es lo que se pasara como props al componente Layout, el id es el slug del libro
@@ -23,12 +33,16 @@ export const getStaticPaths = () => {
         title: "El programador pragmático",
       },
     },
-  ];
+  ];*/
 };
 
-const { title } = Astro.props;
+// const { title } = Astro.props;
+
+const { book } = Astro.props; // destructuramos el libro de las props, esto es lo que se pasa como props al componente Layout
 ---
 
-<Layout title=`${title} - Dev Books`>
-  <h1>{title}</h1>
+<Layout title=`${book.data.title} - Dev Books`>
+  <div class="flex gap-12">
+    <h1>{book.data.title}</h1>
+  </div>
 </Layout>
