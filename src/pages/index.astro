@@ -2,9 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-const books = await getCollection("books");
+const books = await getCollection("books"); // esto devuelve una array de objetos con los metadatos de cada libro
 
-export const prerender = true;
+export const prerender = true; // prerender es una propiedad que le dice a astro que esta pagina se debe prerenderizar, es decir, que se debe generar una version estatica de la pagina en el momento de la construccion
+// esto es util para mejorar el rendimiento de la pagina y para que no se tenga que generar la pagina en cada peticion
+console.log(books[0].slug); // esto es para ver si se esta obteniendo el slug de los libros correctamente
+// console.log(books[0].data); // esto es para ver si se esta obteniendo la data de los libros correctamente
 ---
 
 <Layout title="Dev Books, libros para programadores">
@@ -19,7 +22,9 @@ export const prerender = true;
         <div class="grid gap-6 md:grid-cols-2">
           {
             books.map((book) => {
-              const { slug, data } = book;
+              // recorremos la coleccion de libros
+              const { slug, data } = book; // destructuramos el slug y la data del libro
+              // el slug es el nombre del archivo sin la extension, por ejemplo aprendiendo-git.md se convierte en aprendiendo-git
               const { title, author, img, readtime, description, buy } = data;
 
               return (
